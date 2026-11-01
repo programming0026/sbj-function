@@ -17,9 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * The Class UserServiceImpl.
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -28,15 +25,15 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     /**
-     * The user repository.
+     * Repositorio de usuario.
      */
     private final UserRepository userRepository;
 
     /**
-     * Creates the user.
+     * Crea usuario.
      *
-     * @param userDto the user dto
-     * @return the user response DTO
+     * @param userDto DTO de usuario
+     * @return DTO de respuesta de usuario
      */
     @Override
     public UserResponseDTO createUser(UserRequestDTO userDto) {
@@ -54,10 +51,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Gets the user by id.
+     * Obtiene usuario por identificador.
      *
-     * @param id the id
-     * @return the user by id
+     * @param id identificador
+     * @return usuario por identificador
      */
     @Override
     @Transactional(readOnly = true)
@@ -71,10 +68,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Gets the all users.
+     * Obtiene usuarios todos.
      *
-     * @param pageable the pageable
-     * @return the all users
+     * @param pageable paginación
+     * @return usuarios todos
      */
     @Override
     @Transactional(readOnly = true)
@@ -87,10 +84,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Gets the active users.
+     * Obtiene usuarios activo.
      *
-     * @param pageable the pageable
-     * @return the active users
+     * @param pageable paginación
+     * @return usuarios activo
      */
     @Override
     @Transactional(readOnly = true)
@@ -103,12 +100,12 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Search users.
+     * Busca usuarios.
      *
-     * @param filter the filter
-     * @param active the active
-     * @param pageable the pageable
-     * @return the page
+     * @param filter filtro
+     * @param active activo
+     * @param pageable paginación
+     * @return página
      */
     @Override
     @Transactional(readOnly = true)
@@ -121,11 +118,11 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Update user.
+     * Actualiza usuario.
      *
-     * @param id the id
-     * @param userDto the user dto
-     * @return the user response DTO
+     * @param id identificador
+     * @param userDto DTO de usuario
+     * @return DTO de respuesta de usuario
      */
     @Override
     public UserResponseDTO updateUser(Long id, UserRequestDTO userDto) {
@@ -147,9 +144,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Delete user.
+     * Elimina usuario.
      *
-     * @param id the id
+     * @param id identificador
      */
     @Override
     public void deleteUser(Long id) {
@@ -164,9 +161,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Deactivate user.
+     * Desactiva usuario.
      *
-     * @param id the id
+     * @param id identificador
      */
     @Override
     public void deactivateUser(Long id) {
@@ -182,9 +179,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Activate user.
+     * Activa usuario.
      *
-     * @param id the id
+     * @param id identificador
      */
     @Override
     public void activateUser(Long id) {
@@ -200,9 +197,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Gets the all active users.
+     * Obtiene usuarios todos activo.
      *
-     * @return the all active users
+     * @return usuarios todos activo
      */
     @Override
     @Transactional(readOnly = true)
@@ -216,9 +213,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Count active users.
+     * Cuenta usuarios activo.
      *
-     * @return the long
+     * @return valor entero largo
      */
     @Override
     @Transactional(readOnly = true)
@@ -228,10 +225,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Map dto to entity.
+     * Convierte el DTO en entidad.
      *
-     * @param dto the dto
-     * @return the usuario
+     * @param dto DTO
+     * @return entidad de usuario
      */
     private User mapDtoToEntity(UserRequestDTO dto) {
         User user = new User();
@@ -244,10 +241,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Map entity to dto.
+     * Convierte la entidad en DTO.
      *
-     * @param user the user
-     * @return the user response DTO
+     * @param user usuario
+     * @return DTO de respuesta de usuario
      */
     private UserResponseDTO mapEntityToDto(User user) {
         return new UserResponseDTO(
@@ -263,10 +260,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Update user data.
+     * Actualiza datos de usuario.
      *
-     * @param user the user
-     * @param dto the dto
+     * @param user usuario
+     * @param dto DTO
      */
     private void updateUserData(User user, UserRequestDTO dto) {
         user.setName(dto.getName());

@@ -22,37 +22,34 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-/**
- * The Class UserLambdaHandlerTest.
- */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserLambdaHandler Tests")
 class UserLambdaHandlerTest {
 
     /**
-     * The user service.
+     * Servicio de usuario.
      */
     @Mock
     private UserService userService;
 
     /**
-     * The user lambda handler.
+     * Manejador de lambda de usuario.
      */
     @InjectMocks
     private UserLambdaHandler userLambdaHandler;
 
     /**
-     * The user request dto.
+     * DTO de petición de usuario.
      */
     private UserRequestDTO userRequestDto;
 
     /**
-     * The user response dto.
+     * DTO de respuesta de usuario.
      */
     private UserResponseDTO userResponseDto;
 
     /**
-     * Sets the up.
+     * Prepara los datos de la prueba.
      */
     @BeforeEach
     void setUp() {
@@ -75,19 +72,19 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle create success.
+     * Procesa la creación con éxito.
      */
     @Test
     @DisplayName("Lambda CREATE - create user successfully")
     void handleCreate_Success() {
-        // Given
+        // Dado
         LambdaRequestDTO request = LambdaRequestDTO.create(userRequestDto);
         when(userService.createUser(any(UserRequestDTO.class))).thenReturn(userResponseDto);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertTrue(response.isSuccess());
         assertEquals("User created successfully", response.getMessage());
         assertEquals(200, response.getStatusCode());
@@ -97,18 +94,18 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle create no data.
+     * Procesa la creación sin datos.
      */
     @Test
     @DisplayName("Lambda CREATE - without user data")
     void handleCreate_NoData() {
-        // Given
+        // Dado
         LambdaRequestDTO request = new LambdaRequestDTO("CREATE", null, null);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertFalse(response.isSuccess());
         assertEquals("User data required", response.getMessage());
         assertEquals(400, response.getStatusCode());
@@ -117,19 +114,19 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle get by id success.
+     * Procesa la consulta por identificador con éxito.
      */
     @Test
     @DisplayName("Lambda GET_BY_ID - get user successfully")
     void handleGetById_Success() {
-        // Given
+        // Dado
         LambdaRequestDTO request = LambdaRequestDTO.getById(1L);
         when(userService.getUserById(1L)).thenReturn(userResponseDto);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertTrue(response.isSuccess());
         assertEquals("User retrieved successfully", response.getMessage());
         assertEquals(200, response.getStatusCode());
@@ -138,18 +135,18 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle get by id no id.
+     * Procesa la consulta por identificador sin identificador.
      */
     @Test
     @DisplayName("Lambda GET_BY_ID - without ID")
     void handleGetById_NoId() {
-        // Given
+        // Dado
         LambdaRequestDTO request = new LambdaRequestDTO("GET_BY_ID", null, null);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertFalse(response.isSuccess());
         assertEquals("User ID required", response.getMessage());
         assertEquals(400, response.getStatusCode());
@@ -158,20 +155,20 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle get all active success.
+     * Procesa la consulta de usuarios activos con éxito.
      */
     @Test
     @DisplayName("Lambda GET_ALL_ACTIVE - get active users")
     void handleGetAllActive_Success() {
-        // Given
+        // Dado
         LambdaRequestDTO request = LambdaRequestDTO.getAllActive();
         List<UserResponseDTO> users = Arrays.asList(userResponseDto);
         when(userService.getAllActiveUsers()).thenReturn(users);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertTrue(response.isSuccess());
         assertEquals("Active users retrieved successfully", response.getMessage());
         assertEquals(200, response.getStatusCode());
@@ -180,19 +177,19 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle update success.
+     * Procesa la actualización con éxito.
      */
     @Test
     @DisplayName("Lambda UPDATE - update user successfully")
     void handleUpdate_Success() {
-        // Given
+        // Dado
         LambdaRequestDTO request = LambdaRequestDTO.update(1L, userRequestDto);
         when(userService.updateUser(eq(1L), any(UserRequestDTO.class))).thenReturn(userResponseDto);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertTrue(response.isSuccess());
         assertEquals("User updated successfully", response.getMessage());
         assertEquals(200, response.getStatusCode());
@@ -201,18 +198,18 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle update no id.
+     * Procesa la actualización sin identificador.
      */
     @Test
     @DisplayName("Lambda UPDATE - without ID")
     void handleUpdate_NoId() {
-        // Given
+        // Dado
         LambdaRequestDTO request = new LambdaRequestDTO("UPDATE", null, userRequestDto);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertFalse(response.isSuccess());
         assertEquals("User ID and data required", response.getMessage());
         assertEquals(400, response.getStatusCode());
@@ -221,18 +218,18 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle update no data.
+     * Procesa la actualización sin datos.
      */
     @Test
     @DisplayName("Lambda UPDATE - without data")
     void handleUpdate_NoData() {
-        // Given
+        // Dado
         LambdaRequestDTO request = new LambdaRequestDTO("UPDATE", 1L, null);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertFalse(response.isSuccess());
         assertEquals("User ID and data required", response.getMessage());
         assertEquals(400, response.getStatusCode());
@@ -241,19 +238,19 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle delete success.
+     * Procesa la eliminación con éxito.
      */
     @Test
     @DisplayName("Lambda DELETE - delete user successfully")
     void handleDelete_Success() {
-        // Given
+        // Dado
         LambdaRequestDTO request = LambdaRequestDTO.delete(1L);
         doNothing().when(userService).deleteUser(1L);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertTrue(response.isSuccess());
         assertEquals("User deleted successfully", response.getMessage());
         assertEquals(200, response.getStatusCode());
@@ -262,18 +259,18 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle delete no id.
+     * Procesa la eliminación sin identificador.
      */
     @Test
     @DisplayName("Lambda DELETE - without ID")
     void handleDelete_NoId() {
-        // Given
+        // Dado
         LambdaRequestDTO request = new LambdaRequestDTO("DELETE", null, null);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertFalse(response.isSuccess());
         assertEquals("User ID required", response.getMessage());
         assertEquals(400, response.getStatusCode());
@@ -282,19 +279,19 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle activate success.
+     * Procesa la activación con éxito.
      */
     @Test
     @DisplayName("Lambda ACTIVATE - activate user successfully")
     void handleActivate_Success() {
-        // Given
+        // Dado
         LambdaRequestDTO request = LambdaRequestDTO.activate(1L);
         doNothing().when(userService).activateUser(1L);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertTrue(response.isSuccess());
         assertEquals("User activated successfully", response.getMessage());
         assertEquals(200, response.getStatusCode());
@@ -303,18 +300,18 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle activate no id.
+     * Procesa la activación sin identificador.
      */
     @Test
     @DisplayName("Lambda ACTIVATE - without ID")
     void handleActivate_NoId() {
-        // Given
+        // Dado
         LambdaRequestDTO request = new LambdaRequestDTO("ACTIVATE", null, null);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertFalse(response.isSuccess());
         assertEquals("User ID required", response.getMessage());
         assertEquals(400, response.getStatusCode());
@@ -323,19 +320,19 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle deactivate success.
+     * Procesa la desactivación con éxito.
      */
     @Test
     @DisplayName("Lambda DEACTIVATE - deactivate user successfully")
     void handleDeactivate_Success() {
-        // Given
+        // Dado
         LambdaRequestDTO request = LambdaRequestDTO.deactivate(1L);
         doNothing().when(userService).deactivateUser(1L);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertTrue(response.isSuccess());
         assertEquals("User deactivated successfully", response.getMessage());
         assertEquals(200, response.getStatusCode());
@@ -344,18 +341,18 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle deactivate no id.
+     * Procesa la desactivación sin identificador.
      */
     @Test
     @DisplayName("Lambda DEACTIVATE - without ID")
     void handleDeactivate_NoId() {
-        // Given
+        // Dado
         LambdaRequestDTO request = new LambdaRequestDTO("DEACTIVATE", null, null);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertFalse(response.isSuccess());
         assertEquals("User ID required", response.getMessage());
         assertEquals(400, response.getStatusCode());
@@ -364,19 +361,19 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle count active success.
+     * Procesa éxito de cantidad activo.
      */
     @Test
     @DisplayName("Lambda COUNT_ACTIVE - count active users")
     void handleCountActive_Success() {
-        // Given
+        // Dado
         LambdaRequestDTO request = LambdaRequestDTO.countActive();
         when(userService.countActiveUsers()).thenReturn(5L);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertTrue(response.isSuccess());
         assertEquals("Count retrieved successfully", response.getMessage());
         assertEquals(200, response.getStatusCode());
@@ -385,18 +382,18 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle unsupported operation.
+     * Procesa una operación no soportada.
      */
     @Test
     @DisplayName("Lambda - unsupported operation")
     void handleUnsupportedOperation() {
-        // Given
+        // Dado
         LambdaRequestDTO request = new LambdaRequestDTO("INVALID_OPERATION", null, null);
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertFalse(response.isSuccess());
         assertEquals("Unsupported operation: INVALID_OPERATION", response.getMessage());
         assertEquals(400, response.getStatusCode());
@@ -405,20 +402,20 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Handle exception during processing.
+     * Procesa una excepción durante el procesamiento.
      */
     @Test
     @DisplayName("Lambda - exception handling during processing")
     void handleExceptionDuringProcessing() {
-        // Given
+        // Dado
         LambdaRequestDTO request = LambdaRequestDTO.getById(1L);
         when(userService.getUserById(1L))
                 .thenThrow(new NotFoundException("User not found"));
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertFalse(response.isSuccess());
         assertEquals("User not found", response.getMessage());
         assertEquals(404, response.getStatusCode());
@@ -432,14 +429,14 @@ class UserLambdaHandlerTest {
     @Test
     @DisplayName("Lambda - unexpected exception does not leak details")
     void unexpectedExceptionReturns500WithoutDetails() {
-        // Given
+        // Dado
         LambdaRequestDTO request = LambdaRequestDTO.getById(1L);
         when(userService.getUserById(1L)).thenThrow(new IllegalStateException("jdbc:mysql://secret-host"));
 
-        // When
+        // Cuando
         LambdaResponseDTO response = userLambdaHandler.apply(request);
 
-        // Then
+        // Entonces
         assertEquals(500, response.getStatusCode());
         assertEquals("Internal error", response.getMessage());
     }
@@ -456,54 +453,54 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Verify lambda request static methods.
+     * Verifica los métodos estáticos de la petición lambda.
      */
     @Test
     @DisplayName("Verify static methods of LambdaRequest")
     void verifyLambdaRequestStaticMethods() {
-        // Test create
+        // Prueba de crear
         LambdaRequestDTO createRequest = LambdaRequestDTO.create(userRequestDto);
         assertEquals("CREATE", createRequest.getOperation());
         assertNull(createRequest.getUserId());
         assertEquals(userRequestDto, createRequest.getUserData());
 
-        // Test getById
+        // Prueba de consultar por identificador
         LambdaRequestDTO getByIdRequest = LambdaRequestDTO.getById(1L);
         assertEquals("GET_BY_ID", getByIdRequest.getOperation());
         assertEquals(1L, getByIdRequest.getUserId());
         assertNull(getByIdRequest.getUserData());
 
-        // Test getAllActive
+        // Prueba de consultar activos
         LambdaRequestDTO getAllActiveRequest = LambdaRequestDTO.getAllActive();
         assertEquals("GET_ALL_ACTIVE", getAllActiveRequest.getOperation());
         assertNull(getAllActiveRequest.getUserId());
         assertNull(getAllActiveRequest.getUserData());
 
-        // Test update
+        // Prueba de actualizar
         LambdaRequestDTO updateRequest = LambdaRequestDTO.update(1L, userRequestDto);
         assertEquals("UPDATE", updateRequest.getOperation());
         assertEquals(1L, updateRequest.getUserId());
         assertEquals(userRequestDto, updateRequest.getUserData());
 
-        // Test delete
+        // Prueba de eliminar
         LambdaRequestDTO deleteRequest = LambdaRequestDTO.delete(1L);
         assertEquals("DELETE", deleteRequest.getOperation());
         assertEquals(1L, deleteRequest.getUserId());
         assertNull(deleteRequest.getUserData());
 
-        // Test activate
+        // Prueba de activar
         LambdaRequestDTO activateRequest = LambdaRequestDTO.activate(1L);
         assertEquals("ACTIVATE", activateRequest.getOperation());
         assertEquals(1L, activateRequest.getUserId());
         assertNull(activateRequest.getUserData());
 
-        // Test deactivate
+        // Prueba de desactivar
         LambdaRequestDTO deactivateRequest = LambdaRequestDTO.deactivate(1L);
         assertEquals("DEACTIVATE", deactivateRequest.getOperation());
         assertEquals(1L, deactivateRequest.getUserId());
         assertNull(deactivateRequest.getUserData());
 
-        // Test countActive
+        // Prueba de contar activos
         LambdaRequestDTO countActiveRequest = LambdaRequestDTO.countActive();
         assertEquals("COUNT_ACTIVE", countActiveRequest.getOperation());
         assertNull(countActiveRequest.getUserId());
@@ -511,12 +508,12 @@ class UserLambdaHandlerTest {
     }
 
     /**
-     * Verify lambda response DTO static methods.
+     * Verifica los métodos estáticos de la respuesta lambda.
      */
     @Test
     @DisplayName("Verify static methods of LambdaResponseDTO")
     void verifyLambdaResponseDTOStaticMethods() {
-        // Test success
+        // Prueba de respuesta exitosa
         LambdaResponseDTO successResponse = LambdaResponseDTO.success("Test success", userResponseDto);
         assertTrue(successResponse.isSuccess());
         assertEquals("Test success", successResponse.getMessage());
@@ -524,7 +521,7 @@ class UserLambdaHandlerTest {
         assertEquals(200, successResponse.getStatusCode());
         assertNotNull(successResponse.getTimestamp());
 
-        // Test error
+        // Prueba de error
         LambdaResponseDTO errorResponse = LambdaResponseDTO.error("Test error", 404);
         assertFalse(errorResponse.isSuccess());
         assertEquals("Test error", errorResponse.getMessage());

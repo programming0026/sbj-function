@@ -5,8 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,37 +17,34 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * The Class UserRepositoryTest.
- */
 @DataJpaTest
 @DisplayName("UserRepository Tests")
 class UserRepositoryTest {
 
     /**
-     * The entity manager.
+     * Administrador de entidades.
      */
     @Autowired
     private TestEntityManager entityManager;
 
     /**
-     * The user repository.
+     * Repositorio de usuario.
      */
     @Autowired
     private UserRepository userRepository;
 
     /**
-     * The active user.
+     * Usuario activo.
      */
     private User activeUser;
 
     /**
-     * The inactive user.
+     * Usuario inactivo.
      */
     private User inactiveUser;
 
     /**
-     * Sets the up.
+     * Prepara los datos de la prueba.
      */
     @BeforeEach
     void setUp() {
@@ -74,15 +71,15 @@ class UserRepositoryTest {
     }
 
     /**
-     * Find by active true should return only active users.
+     * Buscar activos devuelve solo usuarios activos.
      */
     @Test
     @DisplayName("Find by active true - Should return only active users")
     void findByActiveTrue_ShouldReturnOnlyActiveUsers() {
-        // When
+        // Cuando
         List<User> activeUsers = userRepository.findByActiveTrue();
 
-        // Then
+        // Entonces
         assertNotNull(activeUsers);
         assertEquals(1, activeUsers.size());
         assertTrue(activeUsers.get(0).getActive());
@@ -90,19 +87,19 @@ class UserRepositoryTest {
     }
 
     /**
-     * Find by active true with pagination should return active users with
-     * pagination.
+     * Buscar activos con paginación devuelve los usuarios activos de la página.
+     * paginación.
      */
     @Test
     @DisplayName("Find by active true with pagination - Should return active users with pagination")
     void findByActiveTrue_WithPagination_ShouldReturnActiveUsersWithPagination() {
-        // Given
+        // Dado
         Pageable pageable = PageRequest.of(0, 10);
 
-        // When
+        // Cuando
         Page<User> activeUsersPage = userRepository.findByActiveTrue(pageable);
 
-        // Then
+        // Entonces
         assertNotNull(activeUsersPage);
         assertEquals(1, activeUsersPage.getTotalElements());
         assertEquals(1, activeUsersPage.getContent().size());
@@ -110,42 +107,42 @@ class UserRepositoryTest {
     }
 
     /**
-     * Exists by email should return true when email exists.
+     * Devuelve verdadero cuando el correo existe.
      */
     @Test
     @DisplayName("Exists by email - Should return true when email exists")
     void existsByEmail_ShouldReturnTrueWhenEmailExists() {
-        // When & Then
+        // Cuando y entonces
         assertTrue(userRepository.existsByEmail("john.doe@email.com"));
         assertTrue(userRepository.existsByEmail("jane.smith@email.com"));
         assertFalse(userRepository.existsByEmail("nonexistent@email.com"));
     }
 
     /**
-     * Exists by email and id not should return correct results.
+     * Verifica si existe el correo en otro usuario distinto.
      */
     @Test
     @DisplayName("Exists by email and id not - Should return correct results")
     void existsByEmailAndIdNot_ShouldReturnCorrectResults() {
-        // When & Then
+        // Cuando y entonces
         assertFalse(userRepository.existsByEmailAndIdNot("john.doe@email.com", activeUser.getId()));
         assertTrue(userRepository.existsByEmailAndIdNot("john.doe@email.com", inactiveUser.getId()));
         assertFalse(userRepository.existsByEmailAndIdNot("nonexistent@email.com", activeUser.getId()));
     }
 
     /**
-     * Find by filter and active should return filtered active users.
+     * Filtrar por texto y estado devuelve los usuarios activos que coinciden.
      */
     @Test
     @DisplayName("Find by filter and active - Should return filtered active users")
     void findByFilterAndActive_ShouldReturnFilteredActiveUsers() {
-        // Given
+        // Dado
         Pageable pageable = PageRequest.of(0, 10);
 
-        // When
+        // Cuando
         Page<User> filteredUsers = userRepository.findByFilterAndActive("John", true, pageable);
 
-        // Then
+        // Entonces
         assertNotNull(filteredUsers);
         assertEquals(1, filteredUsers.getTotalElements());
         assertEquals(1, filteredUsers.getContent().size());
@@ -153,18 +150,18 @@ class UserRepositoryTest {
     }
 
     /**
-     * Find by filter and active should return filtered inactive users.
+     * Filtrar por texto y estado devuelve los usuarios inactivos que coinciden.
      */
     @Test
     @DisplayName("Find by filter and active - Should return filtered inactive users")
     void findByFilterAndActive_ShouldReturnFilteredInactiveUsers() {
-        // Given
+        // Dado
         Pageable pageable = PageRequest.of(0, 10);
 
-        // When
+        // Cuando
         Page<User> filteredUsers = userRepository.findByFilterAndActive("Jane", false, pageable);
 
-        // Then
+        // Entonces
         assertNotNull(filteredUsers);
         assertEquals(1, filteredUsers.getTotalElements());
         assertEquals(1, filteredUsers.getContent().size());
@@ -172,54 +169,54 @@ class UserRepositoryTest {
     }
 
     /**
-     * Find by filter and active should search by email.
+     * Filtrar por texto y estado busca por correo.
      */
     @Test
     @DisplayName("Find by filter and active - Should search by email")
     void findByFilterAndActive_ShouldSearchByEmail() {
-        // Given
+        // Dado
         Pageable pageable = PageRequest.of(0, 10);
 
-        // When
+        // Cuando
         Page<User> filteredUsers = userRepository.findByFilterAndActive("john.doe@email.com", true, pageable);
 
-        // Then
+        // Entonces
         assertNotNull(filteredUsers);
         assertEquals(1, filteredUsers.getTotalElements());
         assertEquals("john.doe@email.com", filteredUsers.getContent().get(0).getEmail());
     }
 
     /**
-     * Find by filter and active should search by last name.
+     * Filtrar por texto y estado busca por apellido.
      */
     @Test
     @DisplayName("Find by filter and active - Should search by last name")
     void findByFilterAndActive_ShouldSearchByLastName() {
-        // Given
+        // Dado
         Pageable pageable = PageRequest.of(0, 10);
 
-        // When
+        // Cuando
         Page<User> filteredUsers = userRepository.findByFilterAndActive("Doe", true, pageable);
 
-        // Then
+        // Entonces
         assertNotNull(filteredUsers);
         assertEquals(1, filteredUsers.getTotalElements());
         assertEquals("john.doe@email.com", filteredUsers.getContent().get(0).getEmail());
     }
 
     /**
-     * Find by filter and active should return empty for no matches.
+     * Filtrar por texto y estado devuelve vacío si no hay coincidencias.
      */
     @Test
     @DisplayName("Find by filter and active - Should return empty for no matches")
     void findByFilterAndActive_ShouldReturnEmptyForNoMatches() {
-        // Given
+        // Dado
         Pageable pageable = PageRequest.of(0, 10);
 
-        // When
+        // Cuando
         Page<User> filteredUsers = userRepository.findByFilterAndActive("NonExistent", true, pageable);
 
-        // Then
+        // Entonces
         assertNotNull(filteredUsers);
         assertEquals(0, filteredUsers.getTotalElements());
         assertTrue(filteredUsers.getContent().isEmpty());
@@ -231,20 +228,20 @@ class UserRepositoryTest {
     @Test
     @DisplayName("Count active users - Should return correct count")
     void countActiveUsers_ShouldReturnCorrectCount() {
-        // When
+        // Cuando
         Long count = userRepository.countByActiveTrue();
 
-        // Then
+        // Entonces
         assertEquals(1L, count);
     }
 
     /**
-     * Save and find should work correctly.
+     * Guardar y buscar funciona correctamente.
      */
     @Test
     @DisplayName("Save and find - Should work correctly")
     void saveAndFind_ShouldWorkCorrectly() {
-        // Given
+        // Dado
         User newUser = new User();
         newUser.setName("Bob");
         newUser.setLastName("Johnson");
@@ -254,11 +251,11 @@ class UserRepositoryTest {
         newUser.setCreatedAt(LocalDateTime.now());
         newUser.setUpdatedAt(LocalDateTime.now());
 
-        // When
+        // Cuando
         User savedUser = userRepository.save(newUser);
         Optional<User> foundUser = userRepository.findById(savedUser.getId());
 
-        // Then
+        // Entonces
         assertNotNull(savedUser.getId());
         assertTrue(foundUser.isPresent());
         assertEquals("bob.johnson@email.com", foundUser.get().getEmail());
@@ -266,36 +263,36 @@ class UserRepositoryTest {
     }
 
     /**
-     * Delete by id should work correctly.
+     * Eliminar por identificador funciona correctamente.
      */
     @Test
     @DisplayName("Delete by ID - Should work correctly")
     void deleteById_ShouldWorkCorrectly() {
-        // Given
+        // Dado
         Long userId = activeUser.getId();
 
-        // When
+        // Cuando
         userRepository.deleteById(userId);
         Optional<User> deletedUser = userRepository.findById(userId);
 
-        // Then
+        // Entonces
         assertFalse(deletedUser.isPresent());
     }
 
     /**
-     * Update user should work correctly.
+     * Actualizar un usuario funciona correctamente.
      */
     @Test
     @DisplayName("Update user - Should work correctly")
     void updateUser_ShouldWorkCorrectly() {
-        // Given
+        // Dado
         activeUser.setName("Updated John");
         activeUser.setEmail("updated.john@email.com");
 
-        // When
+        // Cuando
         User updatedUser = userRepository.save(activeUser);
 
-        // Then
+        // Entonces
         assertEquals("Updated John", updatedUser.getName());
         assertEquals("updated.john@email.com", updatedUser.getEmail());
     }

@@ -1,6 +1,6 @@
 # SBJ Function: CRUD en AWS Lambda con Spring Boot
 
-Aplicación CRUD de usuarios con Spring Boot 3.5 y Java 21, pensada para desplegarse como **función AWS Lambda** (Spring Cloud Function) con base de datos MySQL 8.
+Aplicación CRUD de usuarios con Spring Boot 4.0.1 y Java 21, pensada para desplegarse como **función AWS Lambda** (Spring Cloud Function) con base de datos MySQL 8.
 
 ## Características
 

@@ -23,14 +23,14 @@ import java.time.LocalDateTime;
 public class User {
 
     /**
-     * The id.
+     * Identificador.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
-     * The name.
+     * Nombre.
      */
     @NotBlank(message = "Name is required")
     @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
@@ -38,7 +38,7 @@ public class User {
     private String name;
 
     /**
-     * The last name.
+     * Apellido.
      */
     @NotBlank(message = "Last name is required")
     @Size(min = 2, max = 100, message = "Last name must be between 2 and 100 characters")
@@ -46,7 +46,7 @@ public class User {
     private String lastName;
 
     /**
-     * The email.
+     * Correo electrónico.
      */
     @Email(message = "Email must have a valid format")
     @NotBlank(message = "Email is required")
@@ -55,27 +55,27 @@ public class User {
     private String email;
 
     /**
-     * The phone.
+     * Teléfono.
      */
     @Size(max = 20, message = "Phone cannot exceed 20 characters")
     @Column(name = "phone", length = 20)
     private String phone;
 
     /**
-     * The active.
+     * Activo.
      */
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 
     /**
-     * The created at.
+     * Fecha de creación.
      */
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     /**
-     * The updated at.
+     * Fecha de última actualización.
      */
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)

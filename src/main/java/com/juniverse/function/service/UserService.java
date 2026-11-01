@@ -8,94 +8,91 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-/**
- * The Interface UserService.
- */
 public interface UserService {
 
     /**
-     * Creates the user.
+     * Crea usuario.
      *
-     * @param userDto the user dto
-     * @return the user response DTO
+     * @param userDto DTO de usuario
+     * @return DTO de respuesta de usuario
      */
     UserResponseDTO createUser(@Valid UserRequestDTO userDto);
 
     /**
-     * Gets the user by id.
+     * Obtiene usuario por identificador.
      *
-     * @param id the id
-     * @return the user by id
+     * @param id identificador
+     * @return usuario por identificador
      */
     UserResponseDTO getUserById(Long id);
 
     /**
-     * Gets the all users.
+     * Obtiene usuarios todos.
      *
-     * @param pageable the pageable
-     * @return the all users
+     * @param pageable paginación
+     * @return usuarios todos
      */
     Page<UserResponseDTO> getAllUsers(Pageable pageable);
 
     /**
-     * Gets the active users.
+     * Obtiene usuarios activo.
      *
-     * @param pageable the pageable
-     * @return the active users
+     * @param pageable paginación
+     * @return usuarios activo
      */
     Page<UserResponseDTO> getActiveUsers(Pageable pageable);
 
     /**
-     * Search users.
+     * Busca usuarios.
      *
-     * @param filter the filter
-     * @param active the active
-     * @param pageable the pageable
-     * @return the page
+     * @param filter filtro
+     * @param active activo
+     * @param pageable paginación
+     * @return página
      */
     Page<UserResponseDTO> searchUsers(String filter, Boolean active, Pageable pageable);
 
     /**
-     * Update user.
+     * Actualiza usuario.
      *
-     * @param id the id
-     * @param userDto the user dto
-     * @return the user response DTO
+     * @param id identificador
+     * @param userDto DTO de usuario
+     * @return DTO de respuesta de usuario
      */
     UserResponseDTO updateUser(Long id, @Valid UserRequestDTO userDto);
 
     /**
-     * Delete user.
+     * Elimina usuario.
      *
-     * @param id the id
+     * @param id identificador
      */
     void deleteUser(Long id);
 
     /**
-     * Deactivate user.
+     * Desactiva usuario.
      *
-     * @param id the id
+     * @param id identificador
      */
     void deactivateUser(Long id);
 
     /**
-     * Activate user.
+     * Activa usuario.
      *
-     * @param id the id
+     * @param id identificador
      */
     void activateUser(Long id);
 
     /**
-     * Gets the all active users.
+     * Obtiene usuarios todos activo.
      *
-     * @return the all active users
+     * @return usuarios todos activo
      */
     List<UserResponseDTO> getAllActiveUsers();
 
     /**
-     * Count active users.
+     * Cuenta usuarios activo.
      *
-     * @return the long
+     * @return valor entero largo
      */
     Long countActiveUsers();
 }

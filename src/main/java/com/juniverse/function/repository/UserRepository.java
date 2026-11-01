@@ -11,42 +11,39 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * The Interface UserRepository.
- */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * Find by email.
+     * Busca por correo electrónico.
      *
-     * @param email the email
-     * @return the optional
+     * @param email correo electrónico
+     * @return opcional
      */
     Optional<User> findByEmail(String email);
 
     /**
-     * Find by active true.
+     * Busca los usuarios activos.
      *
-     * @return the list
+     * @return lista
      */
     List<User> findByActiveTrue();
 
     /**
-     * Find by active true.
+     * Busca los usuarios activos.
      *
-     * @param pageable the pageable
-     * @return the page
+     * @param pageable paginación
+     * @return página
      */
     Page<User> findByActiveTrue(Pageable pageable);
 
     /**
-     * Find by filter and active.
+     * Busca por activo de y de filtro.
      *
-     * @param filter the filter
-     * @param active the active
-     * @param pageable the pageable
-     * @return the page
+     * @param filter filtro
+     * @param active activo
+     * @param pageable paginación
+     * @return página
      */
     @Query("SELECT u FROM User u WHERE "
             + "(LOWER(u.name) LIKE LOWER(CONCAT('%', :filter, '%')) OR "
@@ -58,26 +55,20 @@ public interface UserRepository extends JpaRepository<User, Long> {
             Pageable pageable);
 
     /**
-     * Exists by email and id not.
+     * Indica si el correo pertenece a otro usuario distinto.
      *
-     * @param email the email
-     * @param id the id
-     * @return true, if successful
+     * @param email correo electrónico
+     * @param id identificador
+     * @return {@code true} si la operación tuvo éxito
      */
     boolean existsByEmailAndIdNot(String email, Long id);
 
-    /**
-     * Exists by email.
-     *
-     * @param email the email
-     * @return true, if successful
-     */
     boolean existsByEmail(String email);
 
     /**
-     * Count by active true.
+     * Cuenta los usuarios activos.
      *
-     * @return the long
+     * @return valor entero largo
      */
     Long countByActiveTrue();
 }

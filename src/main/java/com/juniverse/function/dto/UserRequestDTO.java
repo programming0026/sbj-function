@@ -7,30 +7,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * The Class UserRequestDTO.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDTO {
 
     /**
-     * The name.
+     * Nombre.
      */
     @NotBlank(message = "Name is required")
     @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
     private String name;
 
     /**
-     * The last name.
+     * Apellido.
      */
     @NotBlank(message = "Last name is required")
     @Size(min = 2, max = 100, message = "Last name must be between 2 and 100 characters")
     private String lastName;
 
     /**
-     * The email.
+     * Correo electrónico.
      */
     @Email(message = "Email must have a valid format")
     @NotBlank(message = "Email is required")
@@ -38,13 +35,13 @@ public class UserRequestDTO {
     private String email;
 
     /**
-     * The phone.
+     * Teléfono.
      */
     @Size(max = 20, message = "Phone cannot exceed 20 characters")
     private String phone;
 
     /**
-     * The active.
+     * Activo.
      */
     private Boolean active = true;
 }

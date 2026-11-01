@@ -4,103 +4,100 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * The Class LambdaRequestDTO.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class LambdaRequestDTO {
 
     /**
-     * The operation.
+     * Operación.
      */
     private String operation;
 
     /**
-     * The user id.
+     * Identificador de usuario.
      */
     private Long userId;
 
     /**
-     * The user data.
+     * Datos de usuario.
      */
     private UserRequestDTO userData;
 
     /**
-     * Creates the.
+     * Crea.
      *
-     * @param userData the user data
-     * @return the lambda request DTO
+     * @param userData datos de usuario
+     * @return DTO de petición de lambda
      */
     public static LambdaRequestDTO create(UserRequestDTO userData) {
         return new LambdaRequestDTO("CREATE", null, userData);
     }
 
     /**
-     * Gets the by id.
+     * Obtiene por identificador.
      *
-     * @param userId the user id
-     * @return the by id
+     * @param userId identificador de usuario
+     * @return por identificador
      */
     public static LambdaRequestDTO getById(Long userId) {
         return new LambdaRequestDTO("GET_BY_ID", userId, null);
     }
 
     /**
-     * Gets the all active.
+     * Obtiene todos activo.
      *
-     * @return the all active
+     * @return todos activo
      */
     public static LambdaRequestDTO getAllActive() {
         return new LambdaRequestDTO("GET_ALL_ACTIVE", null, null);
     }
 
     /**
-     * Update.
+     * Actualiza.
      *
-     * @param userId the user id
-     * @param userData the user data
-     * @return the lambda request DTO
+     * @param userId identificador de usuario
+     * @param userData datos de usuario
+     * @return DTO de petición de lambda
      */
     public static LambdaRequestDTO update(Long userId, UserRequestDTO userData) {
         return new LambdaRequestDTO("UPDATE", userId, userData);
     }
 
     /**
-     * Delete.
+     * Elimina.
      *
-     * @param userId the user id
-     * @return the lambda request DTO
+     * @param userId identificador de usuario
+     * @return DTO de petición de lambda
      */
     public static LambdaRequestDTO delete(Long userId) {
         return new LambdaRequestDTO("DELETE", userId, null);
     }
 
     /**
-     * Activate.
+     * Activa.
      *
-     * @param userId the user id
-     * @return the lambda request DTO
+     * @param userId identificador de usuario
+     * @return DTO de petición de lambda
      */
     public static LambdaRequestDTO activate(Long userId) {
         return new LambdaRequestDTO("ACTIVATE", userId, null);
     }
 
     /**
-     * Deactivate.
+     * Desactiva.
      *
-     * @param userId the user id
-     * @return the lambda request DTO
+     * @param userId identificador de usuario
+     * @return DTO de petición de lambda
      */
     public static LambdaRequestDTO deactivate(Long userId) {
         return new LambdaRequestDTO("DEACTIVATE", userId, null);
     }
 
     /**
-     * Count active.
+     * Cuenta activo.
      *
-     * @return the lambda request DTO
+     * @return DTO de petición de lambda
      */
     public static LambdaRequestDTO countActive() {
         return new LambdaRequestDTO("COUNT_ACTIVE", null, null);

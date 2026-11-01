@@ -6,47 +6,36 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-/**
- * The Class LambdaResponseDTO.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class LambdaResponseDTO {
 
     /**
-     * The success.
+     * Éxito.
      */
     private boolean success;
 
     /**
-     * The message.
+     * Mensaje.
      */
     private String message;
 
     /**
-     * The data.
+     * Datos.
      */
     private Object data;
 
     /**
-     * The status code.
+     * Código de estado.
      */
     private int statusCode;
 
     /**
-     * The timestamp.
+     * Marca de tiempo.
      */
     private LocalDateTime timestamp;
 
-    /**
-     * Instantiates a new lambda response DTO.
-     *
-     * @param success the success
-     * @param message the message
-     * @param data the data
-     * @param statusCode the status code
-     */
     private LambdaResponseDTO(boolean success, String message, Object data, int statusCode) {
         this.success = success;
         this.message = message;
@@ -56,22 +45,22 @@ public class LambdaResponseDTO {
     }
 
     /**
-     * Success.
+     * Respuesta exitosa.
      *
-     * @param message the message
-     * @param data the data
-     * @return the lambda response DTO
+     * @param message mensaje
+     * @param data datos
+     * @return DTO de respuesta de lambda
      */
     public static LambdaResponseDTO success(String message, Object data) {
         return new LambdaResponseDTO(true, message, data, 200);
     }
 
     /**
-     * Error.
+     * Respuesta de error.
      *
-     * @param message the message
-     * @param statusCode the status code
-     * @return the lambda response DTO
+     * @param message mensaje
+     * @param statusCode código de estado
+     * @return DTO de respuesta de lambda
      */
     public static LambdaResponseDTO error(String message, int statusCode) {
         return new LambdaResponseDTO(false, message, null, statusCode);

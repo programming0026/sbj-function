@@ -6,51 +6,48 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-/**
- * The Class UserResponseDTO.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDTO {
 
     /**
-     * The id.
+     * Identificador.
      */
     private Long id;
 
     /**
-     * The name.
+     * Nombre.
      */
     private String name;
 
     /**
-     * The last name.
+     * Apellido.
      */
     private String lastName;
 
     /**
-     * The email.
+     * Correo electrónico.
      */
     private String email;
 
     /**
-     * The phone.
+     * Teléfono.
      */
     private String phone;
 
     /**
-     * The active.
+     * Activo.
      */
     private Boolean active;
 
     /**
-     * The created at.
+     * Fecha de creación.
      */
     private LocalDateTime createdAt;
 
     /**
-     * The updated at.
+     * Fecha de última actualización.
      */
     private LocalDateTime updatedAt;
 }

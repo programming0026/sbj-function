@@ -27,37 +27,34 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-/**
- * The Class UserServiceImplTest.
- */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserServiceImpl Tests")
 class UserServiceImplTest {
 
     /**
-     * The user repository.
+     * Repositorio de usuario.
      */
     @Mock
     private UserRepository userRepository;
 
     /**
-     * The user service.
+     * Servicio de usuario.
      */
     @InjectMocks
     private UserServiceImpl userService;
 
     /**
-     * The user request dto.
+     * DTO de petición de usuario.
      */
     private UserRequestDTO userRequestDto;
 
     /**
-     * The user.
+     * Usuario.
      */
     private User user;
 
     /**
-     * Sets the up.
+     * Prepara los datos de la prueba.
      */
     @BeforeEach
     void setUp() {
@@ -80,19 +77,19 @@ class UserServiceImplTest {
     }
 
     /**
-     * Creates the user success.
+     * Crea éxito de usuario.
      */
     @Test
     @DisplayName("Create user - Success")
     void createUser_Success() {
-        // Given
+        // Dado
         when(userRepository.existsByEmail(userRequestDto.getEmail())).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        // When
+        // Cuando
         UserResponseDTO result = userService.createUser(userRequestDto);
 
-        // Then
+        // Entonces
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
         assertEquals(user.getName(), result.getName());
@@ -102,15 +99,15 @@ class UserServiceImplTest {
     }
 
     /**
-     * Creates the user email exists.
+     * Crea un usuario cuyo correo ya existe.
      */
     @Test
     @DisplayName("Create user - Email already exists")
     void createUser_EmailExists() {
-        // Given
+        // Dado
         when(userRepository.existsByEmail(userRequestDto.getEmail())).thenReturn(true);
 
-        // When & Then
+        // Cuando y entonces
         ServiceException exception = assertThrows(ServiceException.class,
                 () -> userService.createUser(userRequestDto));
         assertEquals("User already exists with email: john.doe@email.com", exception.getMessage());
@@ -119,20 +116,20 @@ class UserServiceImplTest {
     }
 
     /**
-     * Gets the user by id success.
+     * Obtiene usuario por éxito de identificador.
      *
-     * @return the user by id success
+     * @return usuario por éxito de identificador
      */
     @Test
     @DisplayName("Get user by ID - Success")
     void getUserById_Success() {
-        // Given
+        // Dado
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        // When
+        // Cuando
         UserResponseDTO result = userService.getUserById(1L);
 
-        // Then
+        // Entonces
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
         assertEquals(user.getName(), result.getName());
@@ -141,17 +138,17 @@ class UserServiceImplTest {
     }
 
     /**
-     * Gets the user by id not found.
+     * Consulta de un usuario inexistente por identificador.
      *
-     * @return the user by id not found
+     * @return usuario no encontrado por identificador
      */
     @Test
     @DisplayName("Get user by ID - Not found")
     void getUserById_NotFound() {
-        // Given
+        // Dado
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
-        // When & Then
+        // Cuando y entonces
         NotFoundException exception = assertThrows(NotFoundException.class,
                 () -> userService.getUserById(99L));
         assertEquals("User not found with ID: 99", exception.getMessage());
@@ -159,22 +156,22 @@ class UserServiceImplTest {
     }
 
     /**
-     * Gets the all users success.
+     * Obtiene éxito de usuarios todos.
      *
-     * @return the all users success
+     * @return éxito de usuarios todos
      */
     @Test
     @DisplayName("Get all users with pagination - Success")
     void getAllUsers_Success() {
-        // Given
+        // Dado
         List<User> users = Arrays.asList(user);
         Page<User> page = new PageImpl<>(users, PageRequest.of(0, 10), 1);
         when(userRepository.findAll(any(Pageable.class))).thenReturn(page);
 
-        // When
+        // Cuando
         Page<UserResponseDTO> result = userService.getAllUsers(PageRequest.of(0, 10));
 
-        // Then
+        // Entonces
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
         assertEquals(1, result.getContent().size());
@@ -183,22 +180,22 @@ class UserServiceImplTest {
     }
 
     /**
-     * Gets the active users success.
+     * Obtiene éxito de usuarios activo.
      *
-     * @return the active users success
+     * @return éxito de usuarios activo
      */
     @Test
     @DisplayName("Get active users with pagination - Success")
     void getActiveUsers_Success() {
-        // Given
+        // Dado
         List<User> users = Arrays.asList(user);
         Page<User> page = new PageImpl<>(users, PageRequest.of(0, 10), 1);
         when(userRepository.findByActiveTrue(any(Pageable.class))).thenReturn(page);
 
-        // When
+        // Cuando
         Page<UserResponseDTO> result = userService.getActiveUsers(PageRequest.of(0, 10));
 
-        // Then
+        // Entonces
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
         assertTrue(result.getContent().get(0).getActive());
@@ -206,33 +203,33 @@ class UserServiceImplTest {
     }
 
     /**
-     * Search users success.
+     * Busca éxito de usuarios.
      */
     @Test
     @DisplayName("Search users - Success")
     void searchUsers_Success() {
-        // Given
+        // Dado
         List<User> users = Arrays.asList(user);
         Page<User> page = new PageImpl<>(users, PageRequest.of(0, 10), 1);
         when(userRepository.findByFilterAndActive("John", true, PageRequest.of(0, 10)))
                 .thenReturn(page);
 
-        // When
+        // Cuando
         Page<UserResponseDTO> result = userService.searchUsers("John", true, PageRequest.of(0, 10));
 
-        // Then
+        // Entonces
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
         verify(userRepository, times(1)).findByFilterAndActive("John", true, PageRequest.of(0, 10));
     }
 
     /**
-     * Update user success.
+     * Actualiza éxito de usuario.
      */
     @Test
     @DisplayName("Update user - Success")
     void updateUser_Success() {
-        // Given
+        // Dado
         UserRequestDTO updateDto = new UserRequestDTO();
         updateDto.setName("Jane");
         updateDto.setLastName("Smith");
@@ -244,10 +241,10 @@ class UserServiceImplTest {
         when(userRepository.existsByEmailAndIdNot("jane.smith@email.com", 1L)).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        // When
+        // Cuando
         UserResponseDTO result = userService.updateUser(1L, updateDto);
 
-        // Then
+        // Entonces
         assertNotNull(result);
         verify(userRepository, times(1)).findById(1L);
         verify(userRepository, times(1)).existsByEmailAndIdNot("jane.smith@email.com", 1L);
@@ -255,15 +252,15 @@ class UserServiceImplTest {
     }
 
     /**
-     * Update user not found.
+     * Actualizar un usuario inexistente.
      */
     @Test
     @DisplayName("Update user - Not found")
     void updateUser_NotFound() {
-        // Given
+        // Dado
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
-        // When & Then
+        // Cuando y entonces
         NotFoundException exception = assertThrows(NotFoundException.class,
                 () -> userService.updateUser(99L, userRequestDto));
         assertEquals("User not found with ID: 99", exception.getMessage());
@@ -272,12 +269,12 @@ class UserServiceImplTest {
     }
 
     /**
-     * Update user email exists.
+     * Actualizar con un correo que ya existe.
      */
     @Test
     @DisplayName("Update user - Email already exists")
     void updateUser_EmailExists() {
-        // Given
+        // Dado
         UserRequestDTO updateDto = new UserRequestDTO();
         updateDto.setName("Jane");
         updateDto.setLastName("Smith");
@@ -287,7 +284,7 @@ class UserServiceImplTest {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userRepository.existsByEmailAndIdNot("existing@email.com", 1L)).thenReturn(true);
 
-        // When & Then
+        // Cuando y entonces
         ServiceException exception = assertThrows(ServiceException.class,
                 () -> userService.updateUser(1L, updateDto));
         assertEquals("Another user already exists with email: existing@email.com", exception.getMessage());
@@ -297,33 +294,33 @@ class UserServiceImplTest {
     }
 
     /**
-     * Delete user success.
+     * Elimina éxito de usuario.
      */
     @Test
     @DisplayName("Delete user - Success")
     void deleteUser_Success() {
-        // Given
+        // Dado
         when(userRepository.existsById(1L)).thenReturn(true);
         doNothing().when(userRepository).deleteById(1L);
 
-        // When
+        // Cuando
         userService.deleteUser(1L);
 
-        // Then
+        // Entonces
         verify(userRepository, times(1)).existsById(1L);
         verify(userRepository, times(1)).deleteById(1L);
     }
 
     /**
-     * Delete user not found.
+     * Eliminar un usuario inexistente.
      */
     @Test
     @DisplayName("Delete user - Not found")
     void deleteUser_NotFound() {
-        // Given
+        // Dado
         when(userRepository.existsById(99L)).thenReturn(false);
 
-        // When & Then
+        // Cuando y entonces
         NotFoundException exception = assertThrows(NotFoundException.class,
                 () -> userService.deleteUser(99L));
         assertEquals("User not found with ID: 99", exception.getMessage());
@@ -332,34 +329,34 @@ class UserServiceImplTest {
     }
 
     /**
-     * Deactivate user success.
+     * Desactiva éxito de usuario.
      */
     @Test
     @DisplayName("Deactivate user - Success")
     void deactivateUser_Success() {
-        // Given
+        // Dado
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        // When
+        // Cuando
         userService.deactivateUser(1L);
 
-        // Then
+        // Entonces
         verify(userRepository, times(1)).findById(1L);
         verify(userRepository, times(1)).save(user);
         assertFalse(user.getActive());
     }
 
     /**
-     * Deactivate user not found.
+     * Desactivar un usuario inexistente.
      */
     @Test
     @DisplayName("Deactivate user - Not found")
     void deactivateUser_NotFound() {
-        // Given
+        // Dado
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
-        // When & Then
+        // Cuando y entonces
         NotFoundException exception = assertThrows(NotFoundException.class,
                 () -> userService.deactivateUser(99L));
         assertEquals("User not found with ID: 99", exception.getMessage());
@@ -368,35 +365,35 @@ class UserServiceImplTest {
     }
 
     /**
-     * Activate user success.
+     * Activa éxito de usuario.
      */
     @Test
     @DisplayName("Activate user - Success")
     void activateUser_Success() {
-        // Given
+        // Dado
         user.setActive(false);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        // When
+        // Cuando
         userService.activateUser(1L);
 
-        // Then
+        // Entonces
         verify(userRepository, times(1)).findById(1L);
         verify(userRepository, times(1)).save(user);
         assertTrue(user.getActive());
     }
 
     /**
-     * Activate user not found.
+     * Activar un usuario inexistente.
      */
     @Test
     @DisplayName("Activate user - Not found")
     void activateUser_NotFound() {
-        // Given
+        // Dado
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
-        // When & Then
+        // Cuando y entonces
         NotFoundException exception = assertThrows(NotFoundException.class,
                 () -> userService.activateUser(99L));
         assertEquals("User not found with ID: 99", exception.getMessage());
@@ -405,21 +402,21 @@ class UserServiceImplTest {
     }
 
     /**
-     * Gets the all active users success.
+     * Obtiene éxito de usuarios todos activo.
      *
-     * @return the all active users success
+     * @return éxito de usuarios todos activo
      */
     @Test
     @DisplayName("Get all active users - Success")
     void getAllActiveUsers_Success() {
-        // Given
+        // Dado
         List<User> users = Arrays.asList(user);
         when(userRepository.findByActiveTrue()).thenReturn(users);
 
-        // When
+        // Cuando
         List<UserResponseDTO> result = userService.getAllActiveUsers();
 
-        // Then
+        // Entonces
         assertNotNull(result);
         assertEquals(1, result.size());
         assertTrue(result.get(0).getActive());
@@ -428,18 +425,18 @@ class UserServiceImplTest {
     }
 
     /**
-     * Count active users success.
+     * Cuenta éxito de usuarios activo.
      */
     @Test
     @DisplayName("Count active users - Success")
     void countActiveUsers_Success() {
-        // Given
+        // Dado
         when(userRepository.countByActiveTrue()).thenReturn(5L);
 
-        // When
+        // Cuando
         Long result = userService.countActiveUsers();
 
-        // Then
+        // Entonces
         assertEquals(5L, result);
         verify(userRepository, times(1)).countByActiveTrue();
     }

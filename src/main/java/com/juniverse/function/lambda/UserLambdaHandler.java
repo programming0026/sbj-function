@@ -16,24 +16,21 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.function.Function;
 
-/**
- * The Class UserLambdaHandler.
- */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class UserLambdaHandler implements Function<LambdaRequestDTO, LambdaResponseDTO> {
 
     /**
-     * The user service.
+     * Servicio de usuario.
      */
     private final UserService userService;
 
     /**
-     * Apply.
+     * Aplica.
      *
-     * @param request the request
-     * @return the lambda response DTO
+     * @param request petición
+     * @return DTO de respuesta de lambda
      */
     @Override
     public LambdaResponseDTO apply(LambdaRequestDTO request) {
@@ -82,10 +79,10 @@ public class UserLambdaHandler implements Function<LambdaRequestDTO, LambdaRespo
     }
 
     /**
-     * Handle create.
+     * Procesa la creación.
      *
-     * @param request the request
-     * @return the lambda response DTO
+     * @param request petición
+     * @return DTO de respuesta de lambda
      */
     private LambdaResponseDTO handleCreate(LambdaRequestDTO request) {
         log.info("Creating user via Lambda");
@@ -99,10 +96,10 @@ public class UserLambdaHandler implements Function<LambdaRequestDTO, LambdaRespo
     }
 
     /**
-     * Handle get by id.
+     * Procesa la consulta por identificador.
      *
-     * @param request the request
-     * @return the lambda response DTO
+     * @param request petición
+     * @return DTO de respuesta de lambda
      */
     private LambdaResponseDTO handleGetById(LambdaRequestDTO request) {
         log.info("Getting user by ID via Lambda: {}", request.getUserId());
@@ -115,9 +112,9 @@ public class UserLambdaHandler implements Function<LambdaRequestDTO, LambdaRespo
     }
 
     /**
-     * Handle get all active.
+     * Procesa la consulta de usuarios activos.
      *
-     * @return the lambda response DTO
+     * @return DTO de respuesta de lambda
      */
     private LambdaResponseDTO handleGetAllActive() {
         log.info("Getting active users via Lambda");
@@ -126,10 +123,10 @@ public class UserLambdaHandler implements Function<LambdaRequestDTO, LambdaRespo
     }
 
     /**
-     * Handle update.
+     * Procesa la actualización.
      *
-     * @param request the request
-     * @return the lambda response DTO
+     * @param request petición
+     * @return DTO de respuesta de lambda
      */
     private LambdaResponseDTO handleUpdate(LambdaRequestDTO request) {
         log.info("Updating user via Lambda: {}", request.getUserId());
@@ -142,10 +139,10 @@ public class UserLambdaHandler implements Function<LambdaRequestDTO, LambdaRespo
     }
 
     /**
-     * Handle delete.
+     * Procesa la eliminación.
      *
-     * @param request the request
-     * @return the lambda response DTO
+     * @param request petición
+     * @return DTO de respuesta de lambda
      */
     private LambdaResponseDTO handleDelete(LambdaRequestDTO request) {
         log.info("Deleting user via Lambda: {}", request.getUserId());
@@ -158,10 +155,10 @@ public class UserLambdaHandler implements Function<LambdaRequestDTO, LambdaRespo
     }
 
     /**
-     * Handle activate.
+     * Procesa la activación.
      *
-     * @param request the request
-     * @return the lambda response DTO
+     * @param request petición
+     * @return DTO de respuesta de lambda
      */
     private LambdaResponseDTO handleActivate(LambdaRequestDTO request) {
         log.info("Activating user via Lambda: {}", request.getUserId());
@@ -174,10 +171,10 @@ public class UserLambdaHandler implements Function<LambdaRequestDTO, LambdaRespo
     }
 
     /**
-     * Handle deactivate.
+     * Procesa la desactivación.
      *
-     * @param request the request
-     * @return the lambda response DTO
+     * @param request petición
+     * @return DTO de respuesta de lambda
      */
     private LambdaResponseDTO handleDeactivate(LambdaRequestDTO request) {
         log.info("Deactivating user via Lambda: {}", request.getUserId());
@@ -190,9 +187,9 @@ public class UserLambdaHandler implements Function<LambdaRequestDTO, LambdaRespo
     }
 
     /**
-     * Handle count active.
+     * Procesa cantidad activo.
      *
-     * @return the lambda response DTO
+     * @return DTO de respuesta de lambda
      */
     private LambdaResponseDTO handleCountActive() {
         log.info("Counting active users via Lambda");
