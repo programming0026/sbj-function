@@ -4,7 +4,7 @@ import org.springframework.cloud.function.adapter.aws.FunctionInvoker;
 
 /**
  *
- * @author ajuar
+ * @author Java Universe
  */
 public class CrudFunction extends FunctionInvoker {
 
